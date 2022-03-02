@@ -2,12 +2,83 @@
     width: 100%;
 }
 
-.search-body {
-    padding: 30px;
+.search-body, .filters-body {
+    padding: 20px;
     background-color: #e0e0e0;
 }
 
 .example-full-width {
     width: 100%;
     background: white;
+}
+
+.filters {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.filter-row {
+    display: flex;
+    justify-content: center;
+}
+
+.filters .example-full-width {
+    background: white;
+    margin: 20px 10px 0px;
+}
+
+.filters .example-full-width:first-child {
+    margin-left: 0px;
+}
+.filters .example-full-width:last-child {
+    margin-right: 0px;
+}
+
+.filters-body {
+    margin-top: 20px;
+    display: grid;
+}
+
+.filter-item {
+    padding-left: 10px;
+    background: white;
+    width: fit-content;
+}
+
+.department-filters, .location-filters, .jubfunc-filters {
+    margin: 0px auto;
+}
+
+#clearfilter {
+    width: fit-content;
+    margin: 0px auto;
+    padding: 0px 120px;
+}
+
+.jobslist-body {
+    padding: 10px;
+}
+
+.deptlist {
+    padding-top: 10px;
+}
+
+.deptlist:last-child {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.jobextra {
+    display: flex;
+    justify-content: flex-start;
+}
+.jobextra p {
+    padding: 10px;
+    margin: 0px 10px;
+    height: fit-content;
+}
+
+.jobextra p:last-child {
+    padding: 10px;
+    background-color: #e0e0e0;
 }

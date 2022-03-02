@@ -4,12 +4,87 @@
       <form class="example-form">
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>Job Title</mat-label>
-          <input matInput placeholder="Search for Job">
+          <input matInput placeholder="Search for Job" [formControl]="searchQueryFc" (keyup)="filterSearch()">
         </mat-form-field>
         <div class="row filters">
-          
+          <mat-form-field id="selectdept" class="example-full-width" appearance="fill">
+            <mat-label>Department</mat-label>
+            <mat-select [formControl]="departmentFc" name="department" (selectionChange)="onDepartmentSelected()">
+              <mat-option *ngFor="let dept of jobDepartmentList" [value]="dept.id">
+                {{dept.title}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field id="selectloc" class="example-full-width" appearance="fill">
+            <mat-label>Location</mat-label>
+            <mat-select [formControl]="locationFc" name="location" (selectionChange)="onLocationSelected()">
+              <mat-option *ngFor="let loc of jobLocationsList" [value]="loc.id">
+                {{loc.title}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field id="selectfunc" class="example-full-width" appearance="fill">
+            <mat-label>Function</mat-label>
+            <mat-select [formControl]="functionFc" name="function" (selectionChange)="onFunctionSelected()">
+              <mat-option *ngFor="let fun of jobFunctionsList" [value]="fun.id">
+                {{fun.title}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </form>
     </div>
+  </div>
+
+  <div class="filters-body" *ngIf="jobSearchServ.getSelectedDepartments().length > 0 || jobSearchServ.getSelectedLocations().length > 0 
+    || jobSearchServ.getSelectedFunctions().length > 0">
+    <div class="filter-row">
+      <div class="department-filters" *ngIf="jobSearchServ.getSelectedDepartments().length > 0">
+        <p class="filter-item" *ngFor="let deptval of jobSearchServ.getSelectedDepartments()">
+          <span>{{deptval.title}}</span>
+          <button mat-icon-button color="warn" aria-label="Delete" (click)="deleteDepartment(deptval.id)">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </p>
+      </div>
+      <div class="location-filters" *ngIf="jobSearchServ.getSelectedLocations().length > 0">
+        <p class="filter-item" *ngFor="let locval of jobSearchServ.getSelectedLocations()">
+          <span>{{locval.title}}</span>
+          <button mat-icon-button color="warn" aria-label="Delete" (click)="deleteLocation(locval.id)">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </p>
+      </div>
+      <div class="jubfunc-filters" *ngIf="jobSearchServ.getSelectedFunctions().length > 0">
+        <p class="filter-item" *ngFor="let funcval of jobSearchServ.getSelectedFunctions()">
+          <span>{{funcval.title}}</span>
+          <button mat-icon-button color="warn" aria-label="Delete" (click)="deleteJobFunction(funcval.id)">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </p>
+      </div>
+    </div>
+    <button id="clearfilter" mat-raised-button color="primary" (click)="clearAll()">Clear All</button>
+  </div>
+
+  <div class="jobslist-body" *ngIf="jobSearchServ.getFilteredJobsList().length > 0">
+    <div class="deptlist" *ngFor="let deptval2 of filteredDepartmentList">
+      <h2>{{deptval2.title}}</h2>
+      <div *ngFor="let jobval of jobSearchServ.getFilteredJobsList()">
+        <div class="deptobj" *ngIf="jobval.department.id == deptval2.id">
+          <h3>{{jobval.title}}</h3>
+          <div class="jobextra">
+            <p><mat-icon>business</mat-icon>{{deptval2.title}}</p>
+            <p><mat-icon>place</mat-icon>{{jobval.location.title}}</p>
+            <p>{{jobval.type}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="jobSearchServ.getFilteredJobsList().length <= 0">
+    <h2>No Jobs Found</h2>
   </div>
 </div>
